@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    
+    <table id="results">
+        <tr>
+            <td>Second</td>
+            <td>Ideal Total Distance</td>
+            <td>Ideal Speed</td>
+        </tr>
+        <tbody id="resultBody"></tbody>
+    </table>
+
+    <script id="rowTemplate" type="text/html">
+        <tr>
+            <td><%= second %></td>
+            <td><%= idealTotalDistance %></td>
+            <td><%= idealSpeed %></td>
+            <td><%= incrementalDistance %></td>
+            <td><%= newSpeed %></td>
+        </tr>
+    </script>
+    
+    <script src="/Scripts/jquery-2.1.1.min.js"></script>
+    <script src="/Scripts/lodash.min.js"></script>
+    <script src="/Scripts/app/CalculatingFallingBody.js"></script>
+
+</body>
+</html>
