@@ -7,27 +7,14 @@ var FallingSpaceship;
 
     function init() {
         var paper = Snap("#space");
+        var spaceship = new FallingSpaceship.Models.Spaceship(paper, '/contents/spaceship.svg');
 
-        //var svgImport$ = $('#svgImport');
-        Snap.load('/contents/spaceship.svg', function (fragment) {
-            paper.append(fragment);
+        spaceship.rocketOn();
 
-            flame = paper.select('#layer2');
-            window["flame"] = flame;
-
-            setInterval(toggleFlame, 100);
-        });
+        setInterval(function () {
+            return spaceship.rocketOff();
+        }, 10000);
     }
     FallingSpaceship.init = init;
-
-    function toggleFlame() {
-        currentState = !currentState;
-
-        if (currentState) {
-            flame.attr("display", "none");
-        } else {
-            flame.attr("display", "inline");
-        }
-    }
 })(FallingSpaceship || (FallingSpaceship = {}));
 //# sourceMappingURL=FallingSpaceship.js.map

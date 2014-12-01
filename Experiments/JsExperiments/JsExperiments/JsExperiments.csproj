@@ -44,6 +44,7 @@
     <TypeScriptCompile Include="Scripts\app\FallingSpaceship.ts" />
     <TypeScriptCompile Include="Scripts\app\BasicInstruments.ts" />
     <TypeScriptCompile Include="Scripts\app\CalculatingFallingBody.ts" />
+    <TypeScriptCompile Include="Scripts\app\models\Spaceship.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\lodash\lodash.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\raphael\raphael.d.ts" />
