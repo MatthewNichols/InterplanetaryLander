@@ -3,17 +3,29 @@
 
 module FallingSpaceship {
 
-    var flame: any;
-    var currentState = false;
-
     export function init() {
         
         var paper = Snap("#space");
         var spaceship = new Models.Spaceship(paper, '/contents/spaceship.svg');
 
-        spaceship.rocketOn();
+        $('#rocketOn').on("click", (e) => {
+            spaceship.rocketOn();
+        });
 
-        setInterval(() => spaceship.rocketOff(), 10000);
+        $('#rocketOff').on("click", (e) =>
+        {
+            spaceship.rocketOff();
+        });
+
+        $('#turnCounterClock').on("click", (e) =>
+        {
+            spaceship.turnDegrees(-45);
+        });
+
+        $('#turnClock').on("click", (e) =>
+        {
+            spaceship.turnDegrees(45);
+        });        
     }
 
 } 

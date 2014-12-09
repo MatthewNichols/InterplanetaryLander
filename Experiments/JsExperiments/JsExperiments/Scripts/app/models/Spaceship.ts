@@ -39,9 +39,15 @@ module FallingSpaceship.Models
 
         }
 
-        public rocketOff(): void {
+        public rocketOff(): void
+        {
+            this.flame.attr("display", "none");
+            this.flameState = false;
             clearInterval(this.flameIntervalId);
         }
 
+        turnDegrees(degrees: number) {
+            
+        }
     }
 } 

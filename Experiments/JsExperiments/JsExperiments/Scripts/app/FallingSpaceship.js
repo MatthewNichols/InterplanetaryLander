@@ -2,18 +2,25 @@
 /// <reference path="../typings/snap/snapsvg.d.ts" />
 var FallingSpaceship;
 (function (FallingSpaceship) {
-    var flame;
-    var currentState = false;
-
     function init() {
         var paper = Snap("#space");
         var spaceship = new FallingSpaceship.Models.Spaceship(paper, '/contents/spaceship.svg');
 
-        spaceship.rocketOn();
+        $('#rocketOn').on("click", function (e) {
+            spaceship.rocketOn();
+        });
 
-        setInterval(function () {
-            return spaceship.rocketOff();
-        }, 10000);
+        $('#rocketOff').on("click", function (e) {
+            spaceship.rocketOff();
+        });
+
+        $('#turnCounterClock').on("click", function (e) {
+            spaceship.turnDegrees(-45);
+        });
+
+        $('#turnClock').on("click", function (e) {
+            spaceship.turnDegrees(45);
+        });
     }
     FallingSpaceship.init = init;
 })(FallingSpaceship || (FallingSpaceship = {}));
