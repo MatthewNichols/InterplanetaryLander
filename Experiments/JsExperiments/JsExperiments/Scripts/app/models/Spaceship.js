@@ -8,15 +8,27 @@ var FallingSpaceship;
                 this.paper = paper;
                 this.svgPath = svgPath;
                 this.flameState = false;
+                this.rocketAlreadyOn = false;
                 Snap.load(svgPath, function (fragment) {
+                    //console.log(fragment);
                     paper.append(fragment);
 
-                    _this.flame = paper.select('#layer2');
+                    //Set member properties to different parts of the imported SVG.
+                    _this.totalShip = paper.select('#totalShip');
+                    _this.flame = paper.select('#flame');
+
+                    //console.log(this.flame);
                     _this.flame.attr("display", "none");
                 });
             }
             Spaceship.prototype.rocketOn = function () {
                 var _this = this;
+                if (this.rocketAlreadyOn) {
+                    return;
+                }
+
+                this.rocketAlreadyOn = true;
+
                 var toggleFlame = function () {
                     _this.flameState = !_this.flameState;
 
@@ -34,9 +46,14 @@ var FallingSpaceship;
                 this.flame.attr("display", "none");
                 this.flameState = false;
                 clearInterval(this.flameIntervalId);
+                this.rocketAlreadyOn = false;
             };
 
             Spaceship.prototype.turnDegrees = function (degrees) {
+                var transformString = 'r' + degrees + ',124,150';
+                console.log(transformString);
+                this.totalShip.animate({ transform: transformString }, 1000);
+                //this.totalShip.animate({ transform: 'r-45,150,150' }, 1000);
             };
             return Spaceship;
         })();
