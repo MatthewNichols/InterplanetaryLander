@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<svg id="svg2" version="1.1" width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="black" fill="red">
+        <circle id="main" r="50" cx="50" cy="50" />
+        <polygon id="tail" points="50,50 0,130 50,110 100,130"  />
+    </g>
+</svg>

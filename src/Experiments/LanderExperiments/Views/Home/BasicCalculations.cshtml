@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "BasicCalculations";
+}
+
+<h2>Basic Calculations</h2>
+
+<table id="results">
+    <tr>
+        <td>Second</td>
+        <td>Ideal Total Distance</td>
+        <td>Ideal Speed</td>
+        <td>Incremental Distance</td>
+        <td>Incremental Speed</td>
+    </tr>
+    <tbody id="resultBody"></tbody>
+</table>
+
+<script id="rowTemplate" type="text/html">
+    <tr>
+        <td><%= second %></td>
+        <td><%= idealTotalDistance %></td>
+        <td><%= idealSpeed %></td>
+        <td><%= incrementalDistance %></td>
+        <td><%= newSpeed %></td>
+    </tr>
+</script>
+
+
+@section scripts
+{
+    <script src="~/Scripts/app/pages/basicCalculations.js"></script>
+    
+    <script>
+        var basicCalculation = new LanderExperiments.Pages.BasicCalculations();
+        basicCalculation.init();
+    </script>
+}

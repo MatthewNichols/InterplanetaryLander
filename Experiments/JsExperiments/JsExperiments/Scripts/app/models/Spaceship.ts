@@ -2,7 +2,6 @@
 
 module FallingSpaceship.Models
 {
-
     export class Spaceship
     {
         private totalShip: any;
@@ -16,6 +15,7 @@ module FallingSpaceship.Models
             Snap.load(svgPath, (fragment) =>
             {
                 //console.log(fragment);
+                window["fragment"] = fragment;
                 paper.append(fragment);
 
                 //Set member properties to different parts of the imported SVG.
@@ -64,6 +64,10 @@ module FallingSpaceship.Models
             console.log(transformString);
             this.totalShip.animate({ transform: transformString }, 1000);
             //this.totalShip.animate({ transform: 'r-45,150,150' }, 1000);
+        }
+
+        scale(scalingFactor: number): void {
+            
         }
     }
 } 

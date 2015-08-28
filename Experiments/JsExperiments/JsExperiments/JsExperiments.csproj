@@ -18,6 +18,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="contents\CodeDrawn.svg" />
     <Content Include="contents\spaceship.svg" />
     <Content Include="FallingSpaceship.html" />
     <Content Include="BasicInstruments.html" />

@@ -11,6 +11,7 @@ var FallingSpaceship;
                 this.rocketAlreadyOn = false;
                 Snap.load(svgPath, function (fragment) {
                     //console.log(fragment);
+                    window["fragment"] = fragment;
                     paper.append(fragment);
 
                     //Set member properties to different parts of the imported SVG.
@@ -54,6 +55,9 @@ var FallingSpaceship;
                 console.log(transformString);
                 this.totalShip.animate({ transform: transformString }, 1000);
                 //this.totalShip.animate({ transform: 'r-45,150,150' }, 1000);
+            };
+
+            Spaceship.prototype.scale = function (scalingFactor) {
             };
             return Spaceship;
         })();
