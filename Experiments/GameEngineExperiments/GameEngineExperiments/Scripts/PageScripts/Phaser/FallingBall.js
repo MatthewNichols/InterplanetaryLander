@@ -7,7 +7,6 @@ require.config({
     }
 });
 require(["phaser", "jquery"], function (phaser, $) {
-    console.log("Hi");
     var game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: preload, create: create, render: render });
     function preload() {
         console.log('preload');
@@ -15,7 +14,11 @@ require(["phaser", "jquery"], function (phaser, $) {
     }
     function create() {
         console.log("create");
-        game.add.sprite(game.world.centerX, game.world.centerY, "ship");
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.physics.arcade.gravity.y = 100;
+        var shipSprite = game.add.sprite(game.world.centerX, 10, "ship");
+        game.physics.enable([shipSprite], Phaser.Physics.ARCADE);
+        shipSprite.body.collideWorldBounds = true;
     }
     function render() {
         //console.log("render");
