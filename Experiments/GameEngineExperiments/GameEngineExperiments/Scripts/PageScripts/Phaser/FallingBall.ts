@@ -14,7 +14,7 @@ require(["phaser", "jquery"], function (phaser, $) {
     let game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: preload, create: create, render: render });
     var shipSprite: Phaser.Sprite;
     var velocityDisplay: Phaser.Text;
-    var landed = false;
+    var onGround = false;
 
     function preload() {
         console.log('preload');
@@ -32,18 +32,23 @@ require(["phaser", "jquery"], function (phaser, $) {
         //shipSprite.body.collideWorldBounds = true;
         shipSprite.checkWorldBounds = true;
         shipSprite.events.onOutOfBounds.add(() => {
-            console.log('landed');
-            landed = true;
+            console.log('On ground');
+            onGround = true;
+            game.physics.arcade["isPaused"] = true;
         });
+
         velocityDisplay = game.add.text(10, 10, "Velocity: 0", { font: '14px Arial', fill: '#ff0044', align: 'left'});
     }
 
     function render() {
         //console.log("render");
-        //console.log(shipSprite.body.velocity.y);
-        if (! landed) {
+
+        if (! onGround) {
             velocityDisplay.setText('Velocity: ' + shipSprite.body.velocity.y);    
         }
     }
+
+    $('#pause').click(() => game.physics.arcade["isPaused"] = true);
+    $('#resume').click(() => game.physics.arcade["isPaused"] = false);
 
 });
