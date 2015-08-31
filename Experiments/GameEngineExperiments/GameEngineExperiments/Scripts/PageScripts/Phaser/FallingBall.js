@@ -8,6 +8,9 @@ require.config({
 });
 require(["phaser", "jquery"], function (phaser, $) {
     var game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: preload, create: create, render: render });
+    var shipSprite;
+    var velocityDisplay;
+    var landed = false;
     function preload() {
         console.log('preload');
         game.load.image('ship', '/Content/images/ship.png');
@@ -16,12 +19,22 @@ require(["phaser", "jquery"], function (phaser, $) {
         console.log("create");
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.gravity.y = 100;
-        var shipSprite = game.add.sprite(game.world.centerX, 10, "ship");
+        shipSprite = game.add.sprite(game.world.centerX, 10, "ship");
         game.physics.enable([shipSprite], Phaser.Physics.ARCADE);
-        shipSprite.body.collideWorldBounds = true;
+        //shipSprite.body.collideWorldBounds = true;
+        shipSprite.checkWorldBounds = true;
+        shipSprite.events.onOutOfBounds.add(function () {
+            console.log('landed');
+            landed = true;
+        });
+        velocityDisplay = game.add.text(10, 10, "Velocity: 0", { font: '14px Arial', fill: '#ff0044', align: 'left' });
     }
     function render() {
         //console.log("render");
+        //console.log(shipSprite.body.velocity.y);
+        if (!landed) {
+            velocityDisplay.setText('Velocity: ' + shipSprite.body.velocity.y);
+        }
     }
 });
 //# sourceMappingURL=FallingBall.js.map
