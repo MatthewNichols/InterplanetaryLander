@@ -25,6 +25,7 @@ require(["phaser", "jquery"], function (phaser, $) {
         shipSprite.checkWorldBounds = true;
         shipSprite.events.onOutOfBounds.add(function () {
             console.log('On ground');
+            landed();
             onGround = true;
             game.physics.arcade["isPaused"] = true;
         });
@@ -34,6 +35,12 @@ require(["phaser", "jquery"], function (phaser, $) {
         //console.log("render");
         if (!onGround) {
             velocityDisplay.setText('Velocity: ' + shipSprite.body.velocity.y);
+        }
+    }
+    function landed() {
+        if (shipSprite.body.velocity.y > 10) {
+            var crashedText = game.add.text(game.world.centerX, game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
+            crashedText.anchor.set(0.5);
         }
     }
     $('#pause').click(function () { return game.physics.arcade["isPaused"] = true; });
