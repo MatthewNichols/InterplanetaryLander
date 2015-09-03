@@ -15,23 +15,25 @@ require(["phaser", "jquery"], function (phaser, $) {
     var shipSprite: Phaser.Sprite;
     var velocityDisplay: Phaser.Text;
     var onGround = false;
+    var thrusting = false;
+    var cursors: Phaser.CursorKeys;
 
     function preload() {
         console.log('preload');
-        //game.load.image('ship', '/Content/images/ship.png');
+
         game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 4, 0, 1);
     }
 
     function create() {
         console.log("create");
 
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.physics.arcade.gravity.y = 100;
+        game.physics.startSystem(Phaser.Physics.P2JS);
+        game.physics.p2.gravity.y = 100;
 
         shipSprite = game.add.sprite(game.world.centerX, 10, "ship");
         shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
 
-        game.physics.enable([shipSprite], Phaser.Physics.ARCADE);
+        game.physics.enable([shipSprite], Phaser.Physics.P2JS);
         //shipSprite.body.collideWorldBounds = true;
 
         shipSprite.checkWorldBounds = true;
@@ -39,20 +41,42 @@ require(["phaser", "jquery"], function (phaser, $) {
             console.log('On ground');
             landed();
             onGround = true;
-            game.physics.arcade["isPaused"] = true;
+            game.physics.p2["isPaused"] = true;
         });
 
         velocityDisplay = game.add.text(10, 10, "Velocity: 0", { font: '14px Arial', fill: '#ff0044', align: 'left' });
 
-        shipSprite.animations.play("fireRocket");
+        cursors = game.input.keyboard.createCursorKeys();
+
+
     }
 
     function render() {
         //console.log("render");
 
+        if (cursors.up.isDown) {
+            thrust();
+        } else if (thrusting) {
+            stopThrust();
+        }
+
         if (! onGround) {
             velocityDisplay.setText('Velocity: ' + shipSprite.body.velocity.y);    
         }
+    }
+
+    function thrust() {
+        console.log('thurst');
+        shipSprite.body.thrust(200);
+        shipSprite.animations.play("fireRocket");
+        thrusting = true;
+    }
+
+    function stopThrust() {
+        console.log('stop thrust');
+        shipSprite.animations.stop("fireRocket");
+        shipSprite.animations.frame = 0;
+        thrusting = false;
     }
 
     function landed() {
@@ -62,7 +86,7 @@ require(["phaser", "jquery"], function (phaser, $) {
         }
     }
 
-    $('#pause').click(() => game.physics.arcade["isPaused"] = true);
-    $('#resume').click(() => game.physics.arcade["isPaused"] = false);
+    $('#pause').click(() => game.physics.p2["isPaused"] = true);
+    $('#resume').click(() => game.physics.p2["isPaused"] = false);
 
 });
