@@ -106,7 +106,10 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\ship-fire1.png" />
+    <Content Include="Content\images\ship-fire2.png" />
     <Content Include="Content\images\ship.png" />
+    <Content Include="Content\images\shipSpriteSheet.png" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
