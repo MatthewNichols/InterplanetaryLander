@@ -26,21 +26,17 @@ require(["phaser", "jquery"], function (phaser, $) {
         var worldHeight = game.world.height;
         game.physics.startSystem(Phaser.Physics.P2JS);
         game.physics.p2.gravity.y = 100;
-        shipSprite = game.add.sprite(game.world.centerX, 10, "ship");
+        shipSprite = game.add.sprite(game.world.centerX, 30, "ship");
         shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
         game.physics.enable(shipSprite, Phaser.Physics.P2JS);
         var groundSprite = game.add.tileSprite(0, worldHeight - 18, worldWidth, 18, 'ground');
         groundColider = game.add.tileSprite(worldWidth / 2, worldHeight, worldWidth, 11, 'groundBlank');
         game.physics.enable(groundColider, Phaser.Physics.P2JS);
         groundColider.body.static = true;
-        //shipSprite.body.collideWorldBounds = true;
-        //shipSprite.checkWorldBounds = true;
-        //shipSprite.events.onOutOfBounds.add(() => {
-        //    console.log('On ground');
-        //    landed();
-        //    onGround = true;
-        //    game.physics.p2["isPaused"] = true;
-        //});
+        shipSprite.body.onBeginContact.add(function (body, bodyB, shapeA, shapeB, equation) {
+            console.log('contact', shipSprite.body.velocity.y);
+            landed();
+        }, this);
         velocityDisplay = game.add.text(10, 10, "Velocity: 0", { font: '14px Arial', fill: '#ff0044', align: 'left' });
         cursors = game.input.keyboard.createCursorKeys();
     }
@@ -69,6 +65,7 @@ require(["phaser", "jquery"], function (phaser, $) {
         thrusting = false;
     }
     function landed() {
+        onGround = true;
         if (shipSprite.body.velocity.y > 10) {
             var crashedText = game.add.text(game.world.centerX, game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
             crashedText.anchor.set(0.5);
