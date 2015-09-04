@@ -9,7 +9,7 @@ require.config({
 require(["phaser", "jquery"], function (phaser, $) {
     var game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: preload, create: create, render: render });
     var shipSprite;
-    var groundSprite;
+    var groundColider;
     var velocityDisplay;
     var onGround = false;
     var thrusting = false;
@@ -18,16 +18,21 @@ require(["phaser", "jquery"], function (phaser, $) {
         console.log('preload');
         game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 4, 0, 1);
         game.load.image("ground", '/Content/images/ground.png');
+        game.load.image("groundBlank", '/Content/images/groundBlank.png');
     }
     function create() {
         console.log("create");
+        var worldWidth = game.world.width;
+        var worldHeight = game.world.height;
         game.physics.startSystem(Phaser.Physics.P2JS);
         game.physics.p2.gravity.y = 100;
         shipSprite = game.add.sprite(game.world.centerX, 10, "ship");
         shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
-        groundSprite = game.add.tileSprite(0, 780, 600, 20, 'ground');
-        game.physics.enable([shipSprite], Phaser.Physics.P2JS);
-        //game.physics.enable([groundSprite], Phaser.Physics.P2JS);
+        game.physics.enable(shipSprite, Phaser.Physics.P2JS);
+        var groundSprite = game.add.tileSprite(0, worldHeight - 18, worldWidth, 18, 'ground');
+        groundColider = game.add.tileSprite(worldWidth / 2, worldHeight, worldWidth, 11, 'groundBlank');
+        game.physics.enable(groundColider, Phaser.Physics.P2JS);
+        groundColider.body.static = true;
         //shipSprite.body.collideWorldBounds = true;
         //shipSprite.checkWorldBounds = true;
         //shipSprite.events.onOutOfBounds.add(() => {
