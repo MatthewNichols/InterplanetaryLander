@@ -9,6 +9,7 @@ require.config({
 require(["phaser", "jquery"], function (phaser, $) {
     var game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: preload, create: create, render: render });
     var shipSprite;
+    var groundSprite;
     var velocityDisplay;
     var onGround = false;
     var thrusting = false;
@@ -16,6 +17,7 @@ require(["phaser", "jquery"], function (phaser, $) {
     function preload() {
         console.log('preload');
         game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 4, 0, 1);
+        game.load.image("ground", '/Content/images/ground.png');
     }
     function create() {
         console.log("create");
@@ -23,15 +25,17 @@ require(["phaser", "jquery"], function (phaser, $) {
         game.physics.p2.gravity.y = 100;
         shipSprite = game.add.sprite(game.world.centerX, 10, "ship");
         shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
+        groundSprite = game.add.tileSprite(0, 780, 600, 20, 'ground');
         game.physics.enable([shipSprite], Phaser.Physics.P2JS);
+        //game.physics.enable([groundSprite], Phaser.Physics.P2JS);
         //shipSprite.body.collideWorldBounds = true;
-        shipSprite.checkWorldBounds = true;
-        shipSprite.events.onOutOfBounds.add(function () {
-            console.log('On ground');
-            landed();
-            onGround = true;
-            game.physics.p2["isPaused"] = true;
-        });
+        //shipSprite.checkWorldBounds = true;
+        //shipSprite.events.onOutOfBounds.add(() => {
+        //    console.log('On ground');
+        //    landed();
+        //    onGround = true;
+        //    game.physics.p2["isPaused"] = true;
+        //});
         velocityDisplay = game.add.text(10, 10, "Velocity: 0", { font: '14px Arial', fill: '#ff0044', align: 'left' });
         cursors = game.input.keyboard.createCursorKeys();
     }
