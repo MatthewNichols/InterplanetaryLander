@@ -10,8 +10,14 @@ require.config({
 });
 
 require(["phaser", "jquery"], function (phaser, $) {
-    
+
+    const colors = {
+        Red: '#ff0044', Green: '#069214', Yellow: '#e7f24a'
+    };
     let game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: preload, create: create, render: render });
+
+    const maxSafeVelocity = 20;
+    const maxThrust = 300;
 
     var shipSprite: Phaser.Sprite;
     var groundColider: Phaser.TileSprite;
@@ -42,7 +48,7 @@ require(["phaser", "jquery"], function (phaser, $) {
         shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
         game.physics.enable(shipSprite, Phaser.Physics.P2JS);
 
-        var groundSprite = game.add.tileSprite(0, worldHeight - 18 , worldWidth, 18, 'ground');
+        game.add.tileSprite(0, worldHeight - 18 , worldWidth, 18, 'ground');
         
         groundColider = game.add.tileSprite(worldWidth / 2, worldHeight, worldWidth, 11, 'groundBlank');
         game.physics.enable(groundColider, Phaser.Physics.P2JS);
@@ -53,7 +59,12 @@ require(["phaser", "jquery"], function (phaser, $) {
             landed();
         }, this);
         
-        velocityDisplay = game.add.text(10, 10, "Velocity: 0", { font: '14px Arial', fill: '#ff0044', align: 'left' });
+        velocityDisplay = game.add.text(10, 10, "Velocity: 0", {
+            font: '14px Arial',
+            //fill: '#ff0044',
+            fill: '#ff0044',
+            align: 'left'
+        });
 
         cursors = game.input.keyboard.createCursorKeys();
     }
@@ -68,19 +79,33 @@ require(["phaser", "jquery"], function (phaser, $) {
         }
 
         if (! onGround) {
-            velocityDisplay.setText('Velocity: ' + shipSprite.body.velocity.y);    
+            displayFlightData();
         }
     }
 
+    function displayFlightData() {
+        let speed = shipSprite.body.velocity.y;
+        
+        if (speed > maxSafeVelocity) {
+            console.log(`greater than ${maxSafeVelocity}`);
+            velocityDisplay.fill = colors.Red;
+        } else if (speed < maxSafeVelocity && speed >= 0) {
+            console.log(`less than ${maxSafeVelocity}`);
+            velocityDisplay.fill = colors.Green;
+        } else if (speed < 0) {
+            velocityDisplay.fill = colors.Yellow;
+        }
+        
+        velocityDisplay.setText(`Velocity: ${speed}`);    
+    }
+
     function thrust() {
-        console.log('thurst');
-        shipSprite.body.thrust(200);
+        shipSprite.body.thrust(maxThrust);
         shipSprite.animations.play("fireRocket");
         thrusting = true;
     }
 
     function stopThrust() {
-        console.log('stop thrust');
         shipSprite.animations.stop("fireRocket");
         shipSprite.animations.frame = 0;
         thrusting = false;
