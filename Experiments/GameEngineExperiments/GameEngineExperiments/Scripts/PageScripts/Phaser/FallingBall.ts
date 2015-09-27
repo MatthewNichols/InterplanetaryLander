@@ -30,7 +30,7 @@ require(["phaser", "jquery"], function (phaser, $) {
     function preload() {
         console.log('preload');
 
-        game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 4, 0, 1);
+        game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 11, 0, 1);
         game.load.image("ground", '/Content/images/ground.png');
         game.load.image("groundBlank", '/Content/images/groundBlank.png');
     }
@@ -46,6 +46,8 @@ require(["phaser", "jquery"], function (phaser, $) {
 
         shipSprite = game.add.sprite(game.world.centerX, 30, "ship");
         shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
+        shipSprite.animations.add("explodeShip", [4, 5, 6, 7, 8, 9, 10], 3, false);
+
         game.physics.enable(shipSprite, Phaser.Physics.P2JS);
 
         game.add.tileSprite(0, worldHeight - 18 , worldWidth, 18, 'ground');
@@ -114,7 +116,10 @@ require(["phaser", "jquery"], function (phaser, $) {
     function landed() {
         onGround = true;
 
-        if (shipSprite.body.velocity.y > 10) {
+        if (shipSprite.body.velocity.y > 10)
+        {
+            shipSprite.animations.play("explodeShip");
+
             const crashedText = game.add.text(game.world.centerX, game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
             crashedText.anchor.set(0.5);
         }

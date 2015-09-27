@@ -108,6 +108,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\ground.png" />
     <Content Include="Content\images\groundBlank.png" />
+    <Content Include="Content\images\ship-exploding1.png" />
+    <Content Include="Content\images\ship-exploding2.png" />
+    <Content Include="Content\images\ship-exploding3.png" />
+    <Content Include="Content\images\ship-exploding4.png" />
+    <Content Include="Content\images\ship-exploding5.png" />
+    <Content Include="Content\images\ship-exploding6.png" />
+    <Content Include="Content\images\ship-exploding7.png" />
     <Content Include="Content\images\ship-fire1.png" />
     <Content Include="Content\images\ship-fire2.png" />
     <Content Include="Content\images\ship-fire3.png" />
