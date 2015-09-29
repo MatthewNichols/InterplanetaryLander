@@ -11,13 +11,14 @@ require.config({
 
 require(["phaser", "jquery"], function (phaser, $) {
 
-    const colors = {
+    var colors = {
         Red: '#ff0044', Green: '#069214', Yellow: '#e7f24a'
     };
-    let game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: preload, create: create, render: render });
 
-    const maxSafeVelocity = 20;
-    const maxThrust = 300;
+    var game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: preload, create: create, render: render });
+
+    var maxSafeVelocity = 20;
+    var maxThrust = 300;
 
     var shipSprite: Phaser.Sprite;
     var groundColider: Phaser.TileSprite;
@@ -27,19 +28,26 @@ require(["phaser", "jquery"], function (phaser, $) {
     var thrusting = false;
     var cursors: Phaser.CursorKeys;
 
+    var explosionSound: Phaser.Sound;
+
     function preload() {
         console.log('preload');
 
         game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 11, 0, 1);
         game.load.image("ground", '/Content/images/ground.png');
         game.load.image("groundBlank", '/Content/images/groundBlank.png');
+
+        game.load.audio('explosion', '/Content/sounds/explosion.mp3');
+        //Attribution: http://soundbible.com/1986-Bomb-Exploding.html
     }
 
     function create() {
         console.log("create");
 
-        const worldWidth = game.world.width;
-        const worldHeight = game.world.height;
+        var worldWidth = game.world.width;
+        var worldHeight = game.world.height;
+
+        explosionSound = game.add.audio('explosion');
         
         game.physics.startSystem(Phaser.Physics.P2JS);
         game.physics.p2.gravity.y = 100;
@@ -60,10 +68,9 @@ require(["phaser", "jquery"], function (phaser, $) {
             console.log('contact', shipSprite.body.velocity.y);
             landed();
         }, this);
-        
+
         velocityDisplay = game.add.text(10, 10, "Velocity: 0", {
             font: '14px Arial',
-            //fill: '#ff0044',
             fill: '#ff0044',
             align: 'left'
         });
@@ -86,7 +93,7 @@ require(["phaser", "jquery"], function (phaser, $) {
     }
 
     function displayFlightData() {
-        let speed = shipSprite.body.velocity.y;
+        var speed = shipSprite.body.velocity.y;
         
         if (speed > maxSafeVelocity) {
             console.log(`greater than ${maxSafeVelocity}`);
@@ -119,8 +126,9 @@ require(["phaser", "jquery"], function (phaser, $) {
         if (shipSprite.body.velocity.y > 10)
         {
             shipSprite.animations.play("explodeShip");
+            explosionSound.play('', 5);
 
-            const crashedText = game.add.text(game.world.centerX, game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
+            var crashedText = game.add.text(game.world.centerX, game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
             crashedText.anchor.set(0.5);
         }
     }

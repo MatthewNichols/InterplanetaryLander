@@ -19,16 +19,20 @@ require(["phaser", "jquery"], function (phaser, $) {
     var onGround = false;
     var thrusting = false;
     var cursors;
+    var explosionSound;
     function preload() {
         console.log('preload');
         game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 11, 0, 1);
         game.load.image("ground", '/Content/images/ground.png');
         game.load.image("groundBlank", '/Content/images/groundBlank.png');
+        game.load.audio('explosion', '/Content/sounds/explosion.mp3');
+        //Attribution: http://soundbible.com/1986-Bomb-Exploding.html
     }
     function create() {
         console.log("create");
         var worldWidth = game.world.width;
         var worldHeight = game.world.height;
+        explosionSound = game.add.audio('explosion');
         game.physics.startSystem(Phaser.Physics.P2JS);
         game.physics.p2.gravity.y = 100;
         shipSprite = game.add.sprite(game.world.centerX, 30, "ship");
@@ -45,7 +49,6 @@ require(["phaser", "jquery"], function (phaser, $) {
         }, this);
         velocityDisplay = game.add.text(10, 10, "Velocity: 0", {
             font: '14px Arial',
-            //fill: '#ff0044',
             fill: '#ff0044',
             align: 'left'
         });
@@ -92,6 +95,7 @@ require(["phaser", "jquery"], function (phaser, $) {
         onGround = true;
         if (shipSprite.body.velocity.y > 10) {
             shipSprite.animations.play("explodeShip");
+            explosionSound.play('', 5);
             var crashedText = game.add.text(game.world.centerX, game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
             crashedText.anchor.set(0.5);
         }
@@ -99,3 +103,4 @@ require(["phaser", "jquery"], function (phaser, $) {
     $('#pause').click(function () { return game.physics.p2["isPaused"] = true; });
     $('#resume').click(function () { return game.physics.p2["isPaused"] = false; });
 });
+//# sourceMappingURL=FallingBall.js.map
