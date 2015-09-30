@@ -95,7 +95,7 @@ require(["phaser", "jquery"], function (phaser, $) {
         onGround = true;
         if (shipSprite.body.velocity.y > 10) {
             shipSprite.animations.play("explodeShip");
-            explosionSound.play('', 5);
+            explosionSound.play();
             var crashedText = game.add.text(game.world.centerX, game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
             crashedText.anchor.set(0.5);
         }
@@ -103,4 +103,4 @@ require(["phaser", "jquery"], function (phaser, $) {
     $('#pause').click(function () { return game.physics.p2["isPaused"] = true; });
     $('#resume').click(function () { return game.physics.p2["isPaused"] = false; });
 });
-//# sourceMappingURL=FallingBall.js.map
+//# sourceMappingURL=FallingShip.js.map
