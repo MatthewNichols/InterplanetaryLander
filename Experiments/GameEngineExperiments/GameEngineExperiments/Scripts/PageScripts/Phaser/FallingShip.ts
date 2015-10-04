@@ -1,142 +1,146 @@
 ﻿/// <reference path="../../typings/phaser/phaser.d.ts" />
+/// <reference path="fallingshiprunningstate.ts" />
 
-require.config({
-    baseUrl: '../..',
+module FallingShip {
 
-    paths: {
-        'jquery': '/Scripts/jquery-2.1.4.min',
-        'phaser': '/Scripts/phaser/phaser.min'
-    }
-});
+//require.config({
+//    baseUrl: '../..',
 
-require(["phaser", "jquery"], function (phaser, $) {
+//    paths: {
+//        'jquery': '/Scripts/jquery-2.1.4.min',
+//        'phaser': '/Scripts/phaser/phaser.min',
+//        'FallingShipRunningState': '/Scripts/PageScripts/phaser/FallingShipRunningState'
+//    }
+//});
 
-    var maxSafeVelocity = 20;
-    var maxThrust = 300;
+//require(["phaser", "jquery", "FallingShipRunningState"], function (phaser, $, runningState) {
 
-    var colors = {
-        Red: '#ff0044', Green: '#069214', Yellow: '#e7f24a'
-    };
+    //var maxSafeVelocity = 20;
+    //var maxThrust = 300;
 
-    class GameRunningState extends Phaser.State {
-        
-        game: Phaser.Game;
+    //var colors = {
+    //    Red: '#ff0044', Green: '#069214', Yellow: '#e7f24a'
+    //};
 
-        constructor() {
-            super();
-        }
+    //class GameRunningState extends Phaser.State {
 
-        shipSprite: Phaser.Sprite;
-        groundColider: Phaser.TileSprite;
-        velocityDisplay: Phaser.Text;
+    //    game: Phaser.Game;
 
-        onGround = false;
-        thrusting = false;
-        cursors: Phaser.CursorKeys;
-    
-        explosionSound: Phaser.Sound;
+    //    constructor() {
+    //        super();
+    //    }
 
-        preload() {
-            this.game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 11, 0, 1);
-            this.game.load.image("ground", '/Content/images/ground.png');
-            this.game.load.image("groundBlank", '/Content/images/groundBlank.png');
+    //    shipSprite: Phaser.Sprite;
+    //    groundColider: Phaser.TileSprite;
+    //    velocityDisplay: Phaser.Text;
 
-            this.game.load.audio('explosion', '/Content/sounds/explosion.mp3');
-            //Attribution: http://soundbible.com/1986-Bomb-Exploding.html
-        }
+    //    onGround = false;
+    //    thrusting = false;
+    //    cursors: Phaser.CursorKeys;
 
-        create() {
+    //    explosionSound: Phaser.Sound;
 
-            var worldWidth = this.game.world.width;
-            var worldHeight = this.game.world.height;
+    //    preload() {
+    //        this.game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 11, 0, 1);
+    //        this.game.load.image("ground", '/Content/images/ground.png');
+    //        this.game.load.image("groundBlank", '/Content/images/groundBlank.png');
 
-            this.explosionSound = this.game.add.audio('explosion');
+    //        this.game.load.audio('explosion', '/Content/sounds/explosion.mp3');
+    //        //Attribution: http://soundbible.com/1986-Bomb-Exploding.html
+    //    }
 
-            this.game.physics.startSystem(Phaser.Physics.P2JS);
-            this.game.physics.p2.gravity.y = 100;
+    //    create() {
 
-            this.shipSprite = this.game.add.sprite(this.game.world.centerX, 30, "ship");
-            this.shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
-            this.shipSprite.animations.add("explodeShip", [4, 5, 6, 7, 8, 9, 10], 3, false);
+    //        var worldWidth = this.game.world.width;
+    //        var worldHeight = this.game.world.height;
 
-            this.game.physics.enable(this.shipSprite, Phaser.Physics.P2JS);
+    //        this.explosionSound = this.game.add.audio('explosion');
 
-            this.game.add.tileSprite(0, worldHeight - 18, worldWidth, 18, 'ground');
+    //        this.game.physics.startSystem(Phaser.Physics.P2JS);
+    //        this.game.physics.p2.gravity.y = 100;
 
-            this.groundColider = this.game.add.tileSprite(worldWidth / 2, worldHeight, worldWidth, 11, 'groundBlank');
-            this.game.physics.enable(this.groundColider, Phaser.Physics.P2JS);
-            this.groundColider.body.static = true;
+    //        this.shipSprite = this.game.add.sprite(this.game.world.centerX, 30, "ship");
+    //        this.shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
+    //        this.shipSprite.animations.add("explodeShip", [4, 5, 6, 7, 8, 9, 10], 3, false);
 
-            this.shipSprite.body.onBeginContact.add((body, bodyB, shapeA, shapeB, equation) => {
-                //console.log('contact', shipSprite.body.velocity.y);
-                this.landed();
-            }, this);
+    //        this.game.physics.enable(this.shipSprite, Phaser.Physics.P2JS);
 
-            this.velocityDisplay = this.game.add.text(10, 10, "Velocity: 0", {
-                font: '14px Arial',
-                fill: '#ff0044',
-                align: 'left'
-            });
+    //        this.game.add.tileSprite(0, worldHeight - 18, worldWidth, 18, 'ground');
 
-            this.cursors = this.game.input.keyboard.createCursorKeys();
-        }
+    //        this.groundColider = this.game.add.tileSprite(worldWidth / 2, worldHeight, worldWidth, 11, 'groundBlank');
+    //        this.game.physics.enable(this.groundColider, Phaser.Physics.P2JS);
+    //        this.groundColider.body.static = true;
 
-        //update() {
-            
-        //}
+    //        this.shipSprite.body.onBeginContact.add((body, bodyB, shapeA, shapeB, equation) => {
+    //            //console.log('contact', shipSprite.body.velocity.y);
+    //            this.landed();
+    //        }, this);
 
-        render() {
-            if (this.cursors.up.isDown) {
-                this.thrust();
-            } else if (this.thrusting) {
-                this.stopThrust();
-            }
+    //        this.velocityDisplay = this.game.add.text(10, 10, "Velocity: 0", {
+    //            font: '14px Arial',
+    //            fill: '#ff0044',
+    //            align: 'left'
+    //        });
 
-            if (!this.onGround) {
-                this.displayFlightData();
-            }
-        }
-        
-        displayFlightData() {
-            var speed = this.shipSprite.body.velocity.y;
+    //        this.cursors = this.game.input.keyboard.createCursorKeys();
+    //    }
 
-            if (speed > maxSafeVelocity) {
-                console.log(`greater than ${maxSafeVelocity}`);
-                this.velocityDisplay.fill = colors.Red;
-            } else if (speed < maxSafeVelocity && speed >= 0) {
-                console.log(`less than ${maxSafeVelocity}`);
-                this.velocityDisplay.fill = colors.Green;
-            } else if (speed < 0) {
-                this.velocityDisplay.fill = colors.Yellow;
-            }
+    //    //update() {
 
-            this.velocityDisplay.setText(`Velocity: ${speed}`);
-        }
+    //    //}
 
-        thrust() {
-            this.shipSprite.body.thrust(maxThrust);
-            this.shipSprite.animations.play("fireRocket");
-            this.thrusting = true;
-        }
+    //    render() {
+    //        if (this.cursors.up.isDown) {
+    //            this.thrust();
+    //        } else if (this.thrusting) {
+    //            this.stopThrust();
+    //        }
 
-        stopThrust() {
-            this.shipSprite.animations.stop("fireRocket");
-            this.shipSprite.animations.frame = 0;
-            this.thrusting = false;
-        }
+    //        if (!this.onGround) {
+    //            this.displayFlightData();
+    //        }
+    //    }
 
-        landed() {
-            this.onGround = true;
+    //    displayFlightData() {
+    //        var speed = this.shipSprite.body.velocity.y;
 
-            if (this.shipSprite.body.velocity.y > 10) {
-                this.shipSprite.animations.play("explodeShip");
-                this.explosionSound.play();
+    //        if (speed > maxSafeVelocity) {
+    //            console.log(`greater than ${maxSafeVelocity}`);
+    //            this.velocityDisplay.fill = colors.Red;
+    //        } else if (speed < maxSafeVelocity && speed >= 0) {
+    //            console.log(`less than ${maxSafeVelocity}`);
+    //            this.velocityDisplay.fill = colors.Green;
+    //        } else if (speed < 0) {
+    //            this.velocityDisplay.fill = colors.Yellow;
+    //        }
 
-                var crashedText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
-                crashedText.anchor.set(0.5);
-            }
-        }
-    }
+    //        this.velocityDisplay.setText(`Velocity: ${speed}`);
+    //    }
+
+    //    thrust() {
+    //        this.shipSprite.body.thrust(maxThrust);
+    //        this.shipSprite.animations.play("fireRocket");
+    //        this.thrusting = true;
+    //    }
+
+    //    stopThrust() {
+    //        this.shipSprite.animations.stop("fireRocket");
+    //        this.shipSprite.animations.frame = 0;
+    //        this.thrusting = false;
+    //    }
+
+    //    landed() {
+    //        this.onGround = true;
+
+    //        if (this.shipSprite.body.velocity.y > 10) {
+    //            this.shipSprite.animations.play("explodeShip");
+    //            this.explosionSound.play();
+
+    //            var crashedText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
+    //            crashedText.anchor.set(0.5);
+    //        }
+    //    }
+    //}
 
     class FallingShip {
         game: Phaser.Game;
@@ -144,14 +148,15 @@ require(["phaser", "jquery"], function (phaser, $) {
         constructor()
         {
             this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'content');
-            this.game.state.add("RunningState", GameRunningState, false);
+            this.game.state.add("RunningState", FallingShip.GameRunningState, false);
             this.game.state.start("RunningState", true, true);
         }
     }
 
     var runningGame = new FallingShip();
-    
+
     //$('#pause').click(() => game.physics.p2["isPaused"] = true);
     //$('#resume').click(() => game.physics.p2["isPaused"] = false);
 
-});
+//});
+}
