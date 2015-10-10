@@ -1,10 +1,11 @@
+/// <reference path="../../typings/phaser/phaser.d.ts" />
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var FallingShipRunningState;
-(function (FallingShipRunningState) {
+define(["require", "exports"], function (require, exports) {
+    //import Phaser = require("../../phaser/phaser");
     var maxSafeVelocity = 20;
     var maxThrust = 300;
     var colors = {
@@ -99,6 +100,6 @@ var FallingShipRunningState;
         };
         return GameRunningState;
     })(Phaser.State);
-    FallingShipRunningState.GameRunningState = GameRunningState;
-})(FallingShipRunningState || (FallingShipRunningState = {}));
-//# sourceMappingURL=fallingshiprunningstate.js.map
+    exports.GameRunningState = GameRunningState;
+});
+//# sourceMappingURL=FallingShipRunningState.js.map
