@@ -1,13 +1,13 @@
 /// <reference path="../../typings/phaser/phaser.d.ts" />
-define(["require", "exports", "FallingShipRunningState"], function (require, exports, runningState) {
-    console.log("FallingShip");
+define(["require", "exports", "FallingShipIntroState", "FallingShipRunningState"], function (require, exports, introState, runningState) {
     var FallingShip;
     (function (FallingShip_1) {
         var FallingShip = (function () {
             function FallingShip() {
                 this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'content');
+                this.game.state.add("IntroState", introState.GameIntroState, false);
                 this.game.state.add("RunningState", runningState.GameRunningState, false);
-                this.game.state.start("RunningState", true, true);
+                this.game.state.start("IntroState", true, true);
             }
             return FallingShip;
         })();

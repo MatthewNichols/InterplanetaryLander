@@ -213,6 +213,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\config.ts" />
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShip.ts" />
+    <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShipIntroState.ts" />
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShipRunningState.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\phaser\p2.d.ts" />

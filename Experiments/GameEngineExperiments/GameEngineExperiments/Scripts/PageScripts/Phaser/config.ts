@@ -8,6 +8,4 @@ requirejs.config({
     }
 });
 
-console.log("config");
-
 require(["FallingShip"]);
