@@ -18,15 +18,9 @@ define(["require", "exports"], function (require, exports) {
             this.onGround = false;
             this.thrusting = false;
         }
-        GameRunningState.prototype.preload = function () {
-            this.game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 11, 0, 1);
-            this.game.load.image("ground", '/Content/images/ground.png');
-            this.game.load.image("groundBlank", '/Content/images/groundBlank.png');
-            this.game.load.audio('explosion', '/Content/sounds/explosion.mp3');
-            //Attribution: http://soundbible.com/1986-Bomb-Exploding.html
-        };
         GameRunningState.prototype.create = function () {
             var _this = this;
+            //console.log('Running state create');
             var worldWidth = this.game.world.width;
             var worldHeight = this.game.world.height;
             this.explosionSound = this.game.add.audio('explosion');

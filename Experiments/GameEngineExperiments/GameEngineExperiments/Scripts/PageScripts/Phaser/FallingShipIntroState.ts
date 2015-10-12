@@ -12,13 +12,22 @@ export class GameIntroState extends Phaser.State {
 
     preload()
     {
-        console.log("preload");
+        //console.log("Intro preload");
+        this.game.load.spritesheet('ship', '/Content/images/shipSpriteSheet.png', 30, 40, 11, 0, 1);
+        this.game.load.image("ground", '/Content/images/ground.png');
+        this.game.load.image("groundBlank", '/Content/images/groundBlank.png');
+
+        this.game.load.audio('explosion', '/Content/sounds/explosion.mp3');
+        //Attribution: http://soundbible.com/1986-Bomb-Exploding.html
     }
 
     create()
     {
-        console.log("create");
-        setTimeout(() => this.game.state.start("RunningState", true, true), 10000);
+        //console.log("Intro create");
+        var introText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Lame Intro text!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
+        introText.anchor.set(0.5);
+
+        setTimeout(() => this.game.state.start("RunningState", true, false), 5000);
     }
 
     update()
