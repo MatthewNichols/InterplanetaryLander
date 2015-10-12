@@ -5,13 +5,22 @@
 
 <h2>Phaser</h2>
 
-<div id="content">
-    
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div id="content">
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <textarea id="codeArea" cols="40" rows="20"></textarea>
+
+            <a href="#" id="start" class="btn btn-primary">Start</a>
+            <a href="#" id="pause" class="btn btn-primary">Pause</a>
+            <a href="#" id="resume" class="btn btn-primary">Resume</a>
+        </div>
+    </div>
 </div>
-
-<a href="#" id="pause" class="btn btn-primary">Pause</a>
-<a href="#" id="resume" class="btn btn-primary">Resume</a>
-
 @section pageScripts
 {
     <script src="/Scripts/phaser/phaser.min.js"></script>

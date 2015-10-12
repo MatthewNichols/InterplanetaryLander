@@ -61,11 +61,20 @@ export class GameRunningState extends Phaser.State {
         });
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
+        
+        $('#pause').click(() => {
+            console.log('Pause');
+            this.game.paused = true;
+            //this.pauseUpdate();
+        });
+        //$('#pause').click(() => this.game.physics.p2["isPaused"] = true);
+        $('#resume').click(() => this.game.paused = false);
+
     }
 
-    //update() {
+    update() {
             
-    //}
+    }
 
     render() {
         if (this.cursors.up.isDown) {
@@ -83,10 +92,10 @@ export class GameRunningState extends Phaser.State {
         var speed = this.shipSprite.body.velocity.y;
 
         if (speed > maxSafeVelocity) {
-            console.log(`greater than ${maxSafeVelocity}`);
+            //console.log(`greater than ${maxSafeVelocity}`);
             this.velocityDisplay.fill = colors.Red;
         } else if (speed < maxSafeVelocity && speed >= 0) {
-            console.log(`less than ${maxSafeVelocity}`);
+            //console.log(`less than ${maxSafeVelocity}`);
             this.velocityDisplay.fill = colors.Green;
         } else if (speed < 0) {
             this.velocityDisplay.fill = colors.Yellow;

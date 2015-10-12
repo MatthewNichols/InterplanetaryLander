@@ -44,9 +44,16 @@ define(["require", "exports"], function (require, exports) {
                 align: 'left'
             });
             this.cursors = this.game.input.keyboard.createCursorKeys();
+            $('#pause').click(function () {
+                console.log('Pause');
+                _this.game.paused = true;
+                //this.pauseUpdate();
+            });
+            //$('#pause').click(() => this.game.physics.p2["isPaused"] = true);
+            $('#resume').click(function () { return _this.game.paused = false; });
         };
-        //update() {
-        //}
+        GameRunningState.prototype.update = function () {
+        };
         GameRunningState.prototype.render = function () {
             if (this.cursors.up.isDown) {
                 this.thrust();
@@ -61,11 +68,11 @@ define(["require", "exports"], function (require, exports) {
         GameRunningState.prototype.displayFlightData = function () {
             var speed = this.shipSprite.body.velocity.y;
             if (speed > maxSafeVelocity) {
-                console.log("greater than " + maxSafeVelocity);
+                //console.log(`greater than ${maxSafeVelocity}`);
                 this.velocityDisplay.fill = colors.Red;
             }
             else if (speed < maxSafeVelocity && speed >= 0) {
-                console.log("less than " + maxSafeVelocity);
+                //console.log(`less than ${maxSafeVelocity}`);
                 this.velocityDisplay.fill = colors.Green;
             }
             else if (speed < 0) {

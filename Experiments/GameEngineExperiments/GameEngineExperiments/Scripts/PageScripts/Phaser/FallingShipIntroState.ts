@@ -26,8 +26,8 @@ export class GameIntroState extends Phaser.State {
         //console.log("Intro create");
         var introText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Lame Intro text!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
         introText.anchor.set(0.5);
-
-        setTimeout(() => this.game.state.start("RunningState", true, false), 5000);
+        
+        $('#start').click(() => this.game.state.start("RunningState", true, false));
     }
 
     update()

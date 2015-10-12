@@ -20,8 +20,6 @@ module FallingShip {
 
     var runningGame = new FallingShip();
 
-    //$('#pause').click(() => game.physics.p2["isPaused"] = true);
-    //$('#resume').click(() => game.physics.p2["isPaused"] = false);
 
 //});
 }
