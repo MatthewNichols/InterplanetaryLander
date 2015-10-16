@@ -53,8 +53,6 @@ define(["require", "exports"], function (require, exports) {
             $('#resume').click(function () { return _this.game.paused = false; });
         };
         GameRunningState.prototype.update = function () {
-        };
-        GameRunningState.prototype.render = function () {
             if (this.cursors.up.isDown) {
                 this.thrust();
             }
@@ -64,6 +62,8 @@ define(["require", "exports"], function (require, exports) {
             if (!this.onGround) {
                 this.displayFlightData();
             }
+        };
+        GameRunningState.prototype.render = function () {
         };
         GameRunningState.prototype.displayFlightData = function () {
             var speed = this.shipSprite.body.velocity.y;

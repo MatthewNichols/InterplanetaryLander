@@ -73,10 +73,6 @@ export class GameRunningState extends Phaser.State {
     }
 
     update() {
-            
-    }
-
-    render() {
         if (this.cursors.up.isDown) {
             this.thrust();
         } else if (this.thrusting) {
@@ -85,7 +81,11 @@ export class GameRunningState extends Phaser.State {
 
         if (!this.onGround) {
             this.displayFlightData();
-        }
+        } 
+    }
+
+    render() {
+        
     }
 
     displayFlightData() {
