@@ -1,11 +1,11 @@
 /// <reference path="../../typings/phaser/phaser.d.ts" />
+/// <reference path="usercode.ts" />
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports"], function (require, exports) {
-    //import Phaser = require("../../phaser/phaser");
+define(["require", "exports", "UserCode"], function (require, exports, uc) {
     var maxSafeVelocity = 20;
     var maxThrust = 300;
     var colors = {
@@ -63,7 +63,7 @@ define(["require", "exports"], function (require, exports) {
             if (!this.onGround) {
                 this.displayFlightData();
             }
-            this.userCode();
+            this.userCode.execute();
         };
         GameRunningState.prototype.render = function () {
         };
@@ -101,17 +101,9 @@ define(["require", "exports"], function (require, exports) {
                 crashedText.anchor.set(0.5);
             }
         };
-        /**
-         * Converts the editor contents to a runnable function.
-         * @returns {}
-         */
         GameRunningState.prototype.prepUserCode = function () {
             var userCodeString = this.editor.getDoc().getValue();
-            var localFun;
-            var functionString = "localFun = function() {\n            " + userCodeString + "\n        }";
-            eval(functionString);
-            //localFun();
-            this.userCode = localFun;
+            this.userCode = new uc.UserCode(userCodeString);
         };
         return GameRunningState;
     })(Phaser.State);

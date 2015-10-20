@@ -1,6 +1,7 @@
 ﻿/// <reference path="../../typings/phaser/phaser.d.ts" />
+/// <reference path="usercode.ts" />
 
-//import Phaser = require("../../phaser/phaser");
+import uc = require("UserCode");
 
 var maxSafeVelocity = 20;
 var maxThrust = 300;
@@ -28,7 +29,7 @@ export class GameRunningState extends Phaser.State {
 
     explosionSound: Phaser.Sound;
 
-    userCode: Function;
+    userCode: uc.UserCode;
 
     create() {
         //console.log('Running state create');
@@ -73,7 +74,7 @@ export class GameRunningState extends Phaser.State {
         });
         //$('#pause').click(() => this.game.physics.p2["isPaused"] = true);
         $('#resume').click(() => this.game.paused = false);
-
+        
         this.prepUserCode();
     }
 
@@ -88,7 +89,7 @@ export class GameRunningState extends Phaser.State {
             this.displayFlightData();
         }
 
-        this.userCode();
+        this.userCode.execute();
     }
 
     render() {
@@ -135,22 +136,9 @@ export class GameRunningState extends Phaser.State {
         }
     }
 
-    /**
-     * Converts the editor contents to a runnable function.
-     * @returns {} 
-     */
     prepUserCode()
     {
         let userCodeString = this.editor.getDoc().getValue();
-
-        var localFun;
-        let functionString = `localFun = function() {
-            ${userCodeString}
-        }`;
-
-        eval(functionString);
-
-        //localFun();
-        this.userCode = localFun;
+        this.userCode = new uc.UserCode(userCodeString);
     }
 }
