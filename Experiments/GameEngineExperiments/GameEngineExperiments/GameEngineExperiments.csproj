@@ -260,7 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\config.ts" />
-    <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShip.ts" />
+    <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShipApp.ts" />
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShipIntroState.ts" />
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShipRunningState.ts" />
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\UserCode.ts" />

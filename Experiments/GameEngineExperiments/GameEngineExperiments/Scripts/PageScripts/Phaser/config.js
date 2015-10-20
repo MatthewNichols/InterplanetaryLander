@@ -6,5 +6,5 @@ requirejs.config({
         'phaser': '/Scripts/phaser/phaser.min'
     }
 });
-require(["FallingShip"]);
+require(["FallingShipApp"]);
 //# sourceMappingURL=config.js.map

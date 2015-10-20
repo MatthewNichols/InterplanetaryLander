@@ -8,4 +8,4 @@ requirejs.config({
     }
 });
 
-require(["FallingShip"]);
+require(["FallingShipApp"]);
