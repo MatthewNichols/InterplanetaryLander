@@ -19,8 +19,8 @@ define(["require", "exports"], function (require, exports) {
             this.thrusting = false;
         }
         GameRunningState.prototype.create = function () {
-            var _this = this;
             //console.log('Running state create');
+            var _this = this;
             var worldWidth = this.game.world.width;
             var worldHeight = this.game.world.height;
             this.explosionSound = this.game.add.audio('explosion');
@@ -51,6 +51,7 @@ define(["require", "exports"], function (require, exports) {
             });
             //$('#pause').click(() => this.game.physics.p2["isPaused"] = true);
             $('#resume').click(function () { return _this.game.paused = false; });
+            this.prepUserCode();
         };
         GameRunningState.prototype.update = function () {
             if (this.cursors.up.isDown) {
@@ -62,6 +63,7 @@ define(["require", "exports"], function (require, exports) {
             if (!this.onGround) {
                 this.displayFlightData();
             }
+            this.userCode();
         };
         GameRunningState.prototype.render = function () {
         };
@@ -98,6 +100,18 @@ define(["require", "exports"], function (require, exports) {
                 var crashedText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
                 crashedText.anchor.set(0.5);
             }
+        };
+        /**
+         * Converts the editor contents to a runnable function.
+         * @returns {}
+         */
+        GameRunningState.prototype.prepUserCode = function () {
+            var userCodeString = this.editor.getDoc().getValue();
+            var localFun;
+            var functionString = "localFun = function() {\n            " + userCodeString + "\n        }";
+            eval(functionString);
+            //localFun();
+            this.userCode = localFun;
         };
         return GameRunningState;
     })(Phaser.State);

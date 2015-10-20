@@ -12,7 +12,8 @@ var colors = {
 export class GameRunningState extends Phaser.State {
 
     game: Phaser.Game;
-
+    editor: CodeMirror.Editor;
+    
     constructor() {
         super();
     }
@@ -27,8 +28,11 @@ export class GameRunningState extends Phaser.State {
 
     explosionSound: Phaser.Sound;
 
+    userCode: Function;
+
     create() {
         //console.log('Running state create');
+
         var worldWidth = this.game.world.width;
         var worldHeight = this.game.world.height;
 
@@ -70,6 +74,7 @@ export class GameRunningState extends Phaser.State {
         //$('#pause').click(() => this.game.physics.p2["isPaused"] = true);
         $('#resume').click(() => this.game.paused = false);
 
+        this.prepUserCode();
     }
 
     update() {
@@ -81,7 +86,9 @@ export class GameRunningState extends Phaser.State {
 
         if (!this.onGround) {
             this.displayFlightData();
-        } 
+        }
+
+        this.userCode();
     }
 
     render() {
@@ -126,5 +133,24 @@ export class GameRunningState extends Phaser.State {
             var crashedText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
             crashedText.anchor.set(0.5);
         }
+    }
+
+    /**
+     * Converts the editor contents to a runnable function.
+     * @returns {} 
+     */
+    prepUserCode()
+    {
+        let userCodeString = this.editor.getDoc().getValue();
+
+        var localFun;
+        let functionString = `localFun = function() {
+            ${userCodeString}
+        }`;
+
+        eval(functionString);
+
+        //localFun();
+        this.userCode = localFun;
     }
 }
