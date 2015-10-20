@@ -7,13 +7,13 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-6">
             <div id="content">
 
             </div>
         </div>
-        <div class="col-md-3">
-            <textarea id="codeArea" cols="40" rows="20"></textarea>
+        <div class="col-md-6">
+            <div id="codeArea"></div>
 
             <a href="#" id="start" class="btn btn-primary">Start</a>
             <a href="#" id="pause" class="btn btn-primary">Pause</a>
@@ -24,5 +24,7 @@
 @section pageScripts
 {
     <script src="/Scripts/phaser/phaser.min.js"></script>
+    <script src="~/Scripts/CodeMirror/lib/codemirror.js"></script>
+    <script src="~/Scripts/CodeMirror/mode/javascript/javascript.js"></script>
     <script src="/Scripts/require.js" data-main="/Scripts/PageScripts/Phaser/config.js"></script>
 }
