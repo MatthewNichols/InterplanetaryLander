@@ -18,7 +18,11 @@ export class FallingShipApp {
         //Create an editor an hand a reference over to the RunningState    
         let editor = CodeMirror(document.getElementById('codeArea'),
         {
-            value: "console.log('hello world', new Date());",
+            value: `var speed = ship.speed();
+console.log('speed', speed);
+if (speed > 19) {
+	ship.thrust(); 
+}`,
             mode: "javascript",
             theme: "base16-dark",
             lineNumbers: true

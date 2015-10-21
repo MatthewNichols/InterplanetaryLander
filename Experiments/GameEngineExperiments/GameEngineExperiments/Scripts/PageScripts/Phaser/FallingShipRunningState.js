@@ -61,7 +61,7 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
             if (!this.onGround) {
                 this.displayFlightData();
             }
-            this.userCode.execute();
+            this.userCode.execute(this.ship);
         };
         GameRunningState.prototype.render = function () {
         };
@@ -82,7 +82,7 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
         };
         GameRunningState.prototype.landed = function () {
             this.onGround = true;
-            if (this.ship.speed() > 10) {
+            if (this.ship.speed() > 20) {
                 this.ship.explode();
                 var crashedText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
                 crashedText.anchor.set(0.5);

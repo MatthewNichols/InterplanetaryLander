@@ -9,7 +9,7 @@ define(["require", "exports", "FallingShipIntroState", "FallingShipRunningState"
             this.game.state.start("IntroState", true, true);
             //Create an editor an hand a reference over to the RunningState    
             var editor = CodeMirror(document.getElementById('codeArea'), {
-                value: "console.log('hello world', new Date());",
+                value: "var speed = ship.speed();\nconsole.log('speed', speed);\nif (speed > 19) {\n\tship.thrust(); \n}",
                 mode: "javascript",
                 theme: "base16-dark",
                 lineNumbers: true

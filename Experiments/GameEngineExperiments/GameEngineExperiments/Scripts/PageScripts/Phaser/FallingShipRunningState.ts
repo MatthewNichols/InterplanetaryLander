@@ -27,9 +27,7 @@ export class GameRunningState extends Phaser.State {
     onGround = false;
     thrusting = false;
     cursors: Phaser.CursorKeys;
-
-    //explosionSound: Phaser.Sound;
-
+    
     userCode: uc.UserCode;
     ship: ship.Ship;
 
@@ -88,7 +86,7 @@ export class GameRunningState extends Phaser.State {
             this.displayFlightData();
         }
 
-        this.userCode.execute();
+        this.userCode.execute(this.ship);
     }
 
     render() {
@@ -114,7 +112,7 @@ export class GameRunningState extends Phaser.State {
     landed() {
         this.onGround = true;
 
-        if (this.ship.speed() > 10) {
+        if (this.ship.speed() > 20) {
             this.ship.explode();
             
             var crashedText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });

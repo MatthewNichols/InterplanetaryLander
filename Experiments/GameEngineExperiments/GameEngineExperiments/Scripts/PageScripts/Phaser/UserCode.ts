@@ -1,4 +1,7 @@
-﻿export class UserCode
+﻿
+import s = require("Ship");
+
+export class UserCode
 {
     userCode: Function;
 
@@ -13,7 +16,7 @@
     prepUserCode(userCodeString: string) {
 
         var localFun;
-        let functionString = `localFun = function() {
+        let functionString = `localFun = function(ship) {
             ${userCodeString}
         }`;
 
@@ -25,8 +28,8 @@
     /**
      * Executes the user 
      */
-    execute()
+    execute(ship: s.Ship)
     {
-        this.userCode();
+        this.userCode(ship);
     }
 }
