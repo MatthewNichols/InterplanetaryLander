@@ -10,10 +10,13 @@ export class Ship {
 
         this.shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
         this.shipSprite.animations.add("explodeShip", [4, 5, 6, 7, 8, 9, 10], 3, false);
+
+        this.worldHeight = game.world.height;
     }
 
     shipSprite: Phaser.Sprite;
     thrusting = false;
+    worldHeight: number;
 
     explosionSound: Phaser.Sound;
 
@@ -30,11 +33,11 @@ export class Ship {
     }
 
     speed = () => this.shipSprite.body.velocity.y;
+    altitude = () => this.worldHeight - this.shipSprite.body.y - 26;
 
     explode()
     {
         this.shipSprite.animations.play("explodeShip");
         this.explosionSound.play();
-
     }
 }
