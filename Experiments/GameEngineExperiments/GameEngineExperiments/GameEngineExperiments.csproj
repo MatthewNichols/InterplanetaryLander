@@ -263,6 +263,7 @@
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShipApp.ts" />
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShipIntroState.ts" />
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\FallingShipRunningState.ts" />
+    <TypeScriptCompile Include="Scripts\PageScripts\Phaser\Ship.ts" />
     <TypeScriptCompile Include="Scripts\PageScripts\Phaser\UserCode.ts" />
     <TypeScriptCompile Include="Scripts\typings\codemirror\codemirror-matchbrackets.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\codemirror\codemirror-showhint.d.ts" />

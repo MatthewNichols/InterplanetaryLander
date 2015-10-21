@@ -2,6 +2,7 @@
 /// <reference path="usercode.ts" />
 
 import uc = require("UserCode");
+import ship = require("Ship");
 
 var maxSafeVelocity = 20;
 var maxThrust = 300;
@@ -27,25 +28,22 @@ export class GameRunningState extends Phaser.State {
     thrusting = false;
     cursors: Phaser.CursorKeys;
 
-    explosionSound: Phaser.Sound;
+    //explosionSound: Phaser.Sound;
 
     userCode: uc.UserCode;
+    ship: ship.Ship;
 
     create() {
         //console.log('Running state create');
 
         var worldWidth = this.game.world.width;
         var worldHeight = this.game.world.height;
-
-        this.explosionSound = this.game.add.audio('explosion');
-
+        
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 100;
 
         this.shipSprite = this.game.add.sprite(this.game.world.centerX, 30, "ship");
-        this.shipSprite.animations.add("fireRocket", [1, 2, 3, 2], 3, true);
-        this.shipSprite.animations.add("explodeShip", [4, 5, 6, 7, 8, 9, 10], 3, false);
-
+        
         this.game.physics.enable(this.shipSprite, Phaser.Physics.P2JS);
 
         this.game.add.tileSprite(0, worldHeight - 18, worldWidth, 18, 'ground');
@@ -76,13 +74,14 @@ export class GameRunningState extends Phaser.State {
         $('#resume').click(() => this.game.paused = false);
         
         this.prepUserCode();
+        this.ship = new ship.Ship(this.shipSprite, this.game);
     }
 
     update() {
         if (this.cursors.up.isDown) {
-            this.thrust();
-        } else if (this.thrusting) {
-            this.stopThrust();
+            this.ship.thrust();
+        } else if (this.ship.thrusting) {
+            this.ship.stopThrust();
         }
 
         if (!this.onGround) {
@@ -97,7 +96,7 @@ export class GameRunningState extends Phaser.State {
     }
 
     displayFlightData() {
-        var speed = this.shipSprite.body.velocity.y;
+        var speed = this.ship.speed();
 
         if (speed > maxSafeVelocity) {
             //console.log(`greater than ${maxSafeVelocity}`);
@@ -111,26 +110,13 @@ export class GameRunningState extends Phaser.State {
 
         this.velocityDisplay.setText(`Velocity: ${speed}`);
     }
-
-    thrust() {
-        this.shipSprite.body.thrust(maxThrust);
-        this.shipSprite.animations.play("fireRocket");
-        this.thrusting = true;
-    }
-
-    stopThrust() {
-        this.shipSprite.animations.stop("fireRocket");
-        this.shipSprite.animations.frame = 0;
-        this.thrusting = false;
-    }
-
+    
     landed() {
         this.onGround = true;
 
-        if (this.shipSprite.body.velocity.y > 10) {
-            this.shipSprite.animations.play("explodeShip");
-            this.explosionSound.play();
-
+        if (this.ship.speed() > 10) {
+            this.ship.explode();
+            
             var crashedText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "You Crashed!", { font: '50px Arial', fill: '#ff0044', align: 'center' });
             crashedText.anchor.set(0.5);
         }
