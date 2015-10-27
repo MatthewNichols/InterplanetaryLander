@@ -10,7 +10,7 @@ export class FallingShipApp {
         
     constructor()
     {
-        this.game = new Phaser.Game("75%", 600, Phaser.AUTO, 'content');
+        this.game = new Phaser.Game("80%", 600, Phaser.AUTO, 'content');
         this.game.state.add("IntroState", introState.GameIntroState, false);
         this.game.state.add("RunningState", runningState.GameRunningState, false);
         this.game.state.start("IntroState", true, true);

@@ -1,23 +1,19 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Falling Ship";
 }
 
-<h2>Phaser</h2>
+<div id="container">
+    <div id="col-ship">
+        <div id="content"></div>
+    </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div id="content">
-
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div id="codeArea"></div>
-
-            <a href="#" id="start" class="btn btn-primary">Start</a>
-            <a href="#" id="pause" class="btn btn-primary">Pause</a>
-            <a href="#" id="resume" class="btn btn-primary">Resume</a>
+    <div id="col-code">
+        <div id="codeArea"></div>
+        <div id="buttons">
+            <a href="#" id="start" class="btn ">Start</a>
+            <a href="#" id="pause" class="btn disabled">Pause</a>
+            <a href="#" id="resume" class="btn disabled">Resume</a>
         </div>
     </div>
 </div>

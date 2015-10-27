@@ -120,12 +120,22 @@
     <Content Include="Content\images\ship-fire3.png" />
     <Content Include="Content\images\ship.png" />
     <Content Include="Content\images\shipSpriteSheet.png" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\Site.css">
+      <DependentUpon>Site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <Content Include="Content\sounds\explosion.mp3" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\Site.less" />
+    <None Include="compilerconfig.json" />
+    <Content Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\CodeMirror\lib\codemirror.css" />
     <Content Include="Scripts\CodeMirror\lib\codemirror.js" />
