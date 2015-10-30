@@ -25,6 +25,7 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
             var worldHeight = this.game.world.height;
             this.game.physics.startSystem(Phaser.Physics.P2JS);
             this.game.physics.p2.gravity.y = 100;
+            this.game.add.tileSprite(0, 0, 800, 600, 'starfield');
             this.shipSprite = this.game.add.sprite(this.game.world.centerX, 30, "ship");
             this.game.physics.enable(this.shipSprite, Phaser.Physics.P2JS);
             this.game.add.tileSprite(0, worldHeight - 18, worldWidth, 18, 'ground');
