@@ -23,6 +23,7 @@ export class GameRunningState extends Phaser.State {
     shipSprite: Phaser.Sprite;
     groundColider: Phaser.TileSprite;
     velocityDisplay: Phaser.Text;
+    displayUpdateCount = 0;
 
     onGround = false;
     thrusting = false;
@@ -57,7 +58,7 @@ export class GameRunningState extends Phaser.State {
         }, this);
 
         this.velocityDisplay = this.game.add.text(10, 10, "Velocity: 0", {
-            font: '14px Arial',
+            font: '26px Arial',
             fill: '#ff0044',
             align: 'left'
         });
@@ -83,31 +84,37 @@ export class GameRunningState extends Phaser.State {
             this.ship.stopThrust();
         }
 
-        if (!this.onGround) {
-            this.displayFlightData();
-        }
+        
 
         this.userCode.execute(this.ship);
     }
 
     render() {
-        
+        if (!this.onGround) {
+            this.displayFlightData();
+        }
     }
 
     displayFlightData() {
-        var speed = this.ship.speed();
+        if (this.displayUpdateCount === 0)
+        {
+            this.displayUpdateCount = 3;
 
-        if (speed > maxSafeVelocity) {
-            //console.log(`greater than ${maxSafeVelocity}`);
-            this.velocityDisplay.fill = colors.Red;
-        } else if (speed < maxSafeVelocity && speed >= 0) {
-            //console.log(`less than ${maxSafeVelocity}`);
-            this.velocityDisplay.fill = colors.Green;
-        } else if (speed < 0) {
-            this.velocityDisplay.fill = colors.Yellow;
+            var speed = this.ship.speed();
+            if (speed > maxSafeVelocity) {
+                //console.log(`greater than ${maxSafeVelocity}`);
+                this.velocityDisplay.fill = colors.Red;
+            } else if (speed < maxSafeVelocity && speed >= 0) {
+                //console.log(`less than ${maxSafeVelocity}`);
+                this.velocityDisplay.fill = colors.Green;
+            } else if (speed < 0) {
+                this.velocityDisplay.fill = colors.Yellow;
+            }
+
+            this.velocityDisplay.setText(`Velocity: ${speed.toFixed(1) }`);    
         }
 
-        this.velocityDisplay.setText(`Velocity: ${speed}`);
+        this.displayUpdateCount--;
     }
     
     landed() {

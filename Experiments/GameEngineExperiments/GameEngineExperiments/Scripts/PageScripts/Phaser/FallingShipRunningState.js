@@ -15,6 +15,7 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
         __extends(GameRunningState, _super);
         function GameRunningState() {
             _super.call(this);
+            this.displayUpdateCount = 0;
             this.onGround = false;
             this.thrusting = false;
         }
@@ -37,7 +38,7 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
                 _this.landed();
             }, this);
             this.velocityDisplay = this.game.add.text(10, 10, "Velocity: 0", {
-                font: '14px Arial',
+                font: '26px Arial',
                 fill: '#ff0044',
                 align: 'left'
             });
@@ -59,27 +60,31 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
             else if (this.ship.thrusting) {
                 this.ship.stopThrust();
             }
-            if (!this.onGround) {
-                this.displayFlightData();
-            }
             this.userCode.execute(this.ship);
         };
         GameRunningState.prototype.render = function () {
+            if (!this.onGround) {
+                this.displayFlightData();
+            }
         };
         GameRunningState.prototype.displayFlightData = function () {
-            var speed = this.ship.speed();
-            if (speed > maxSafeVelocity) {
-                //console.log(`greater than ${maxSafeVelocity}`);
-                this.velocityDisplay.fill = colors.Red;
+            if (this.displayUpdateCount === 0) {
+                this.displayUpdateCount = 3;
+                var speed = this.ship.speed();
+                if (speed > maxSafeVelocity) {
+                    //console.log(`greater than ${maxSafeVelocity}`);
+                    this.velocityDisplay.fill = colors.Red;
+                }
+                else if (speed < maxSafeVelocity && speed >= 0) {
+                    //console.log(`less than ${maxSafeVelocity}`);
+                    this.velocityDisplay.fill = colors.Green;
+                }
+                else if (speed < 0) {
+                    this.velocityDisplay.fill = colors.Yellow;
+                }
+                this.velocityDisplay.setText("Velocity: " + speed.toFixed(1));
             }
-            else if (speed < maxSafeVelocity && speed >= 0) {
-                //console.log(`less than ${maxSafeVelocity}`);
-                this.velocityDisplay.fill = colors.Green;
-            }
-            else if (speed < 0) {
-                this.velocityDisplay.fill = colors.Yellow;
-            }
-            this.velocityDisplay.setText("Velocity: " + speed);
+            this.displayUpdateCount--;
         };
         GameRunningState.prototype.landed = function () {
             this.onGround = true;
