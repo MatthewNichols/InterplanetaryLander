@@ -8,7 +8,7 @@ var maxSafeVelocity = 20;
 var maxThrust = 300;
 
 var colors = {
-    Red: '#ff0044', Green: '#069214', Yellow: '#e7f24a'
+    Red: '#ff0044', Green: '#069214', Yellow: '#e7f24a', White: '#ffffff'
 };
 
 export class GameRunningState extends Phaser.State {
@@ -23,6 +23,7 @@ export class GameRunningState extends Phaser.State {
     shipSprite: Phaser.Sprite;
     groundColider: Phaser.TileSprite;
     velocityDisplay: Phaser.Text;
+    altitudeDisplay: Phaser.Text;
     displayUpdateCount = 0;
 
     onGround = false;
@@ -41,7 +42,7 @@ export class GameRunningState extends Phaser.State {
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 100;
 
-        this.game.add.tileSprite(0, 0, 800, 600, 'starfield');
+        //this.game.add.tileSprite(0, 0, 800, 600, 'starfield');
 
         this.shipSprite = this.game.add.sprite(this.game.world.centerX, 30, "ship");
         
@@ -59,7 +60,13 @@ export class GameRunningState extends Phaser.State {
 
         this.velocityDisplay = this.game.add.text(10, 10, "Velocity: 0", {
             font: '26px Arial',
-            fill: '#ff0044',
+            fill: colors.Red,
+            align: 'left'
+        });
+
+        this.altitudeDisplay = this.game.add.text(400, 10, "Altitude: ", {
+            font: '26px Arial',
+            fill: colors.White,
             align: 'left'
         });
 
@@ -100,6 +107,8 @@ export class GameRunningState extends Phaser.State {
         {
             this.displayUpdateCount = 3;
 
+            //#region Velocity
+             
             var speed = this.ship.speed();
             if (speed > maxSafeVelocity) {
                 //console.log(`greater than ${maxSafeVelocity}`);
@@ -112,6 +121,10 @@ export class GameRunningState extends Phaser.State {
             }
 
             this.velocityDisplay.setText(`Velocity: ${speed.toFixed(1) }`);    
+
+            //#endregion
+
+            this.altitudeDisplay.setText(`Altitude: ${Math.abs(this.ship.altitude()).toFixed() }`);
         }
 
         this.displayUpdateCount--;

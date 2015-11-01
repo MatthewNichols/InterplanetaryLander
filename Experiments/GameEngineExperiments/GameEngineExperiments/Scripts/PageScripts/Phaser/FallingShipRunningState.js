@@ -9,7 +9,7 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
     var maxSafeVelocity = 20;
     var maxThrust = 300;
     var colors = {
-        Red: '#ff0044', Green: '#069214', Yellow: '#e7f24a'
+        Red: '#ff0044', Green: '#069214', Yellow: '#e7f24a', White: '#ffffff'
     };
     var GameRunningState = (function (_super) {
         __extends(GameRunningState, _super);
@@ -26,7 +26,7 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
             var worldHeight = this.game.world.height;
             this.game.physics.startSystem(Phaser.Physics.P2JS);
             this.game.physics.p2.gravity.y = 100;
-            this.game.add.tileSprite(0, 0, 800, 600, 'starfield');
+            //this.game.add.tileSprite(0, 0, 800, 600, 'starfield');
             this.shipSprite = this.game.add.sprite(this.game.world.centerX, 30, "ship");
             this.game.physics.enable(this.shipSprite, Phaser.Physics.P2JS);
             this.game.add.tileSprite(0, worldHeight - 18, worldWidth, 18, 'ground');
@@ -39,7 +39,12 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
             }, this);
             this.velocityDisplay = this.game.add.text(10, 10, "Velocity: 0", {
                 font: '26px Arial',
-                fill: '#ff0044',
+                fill: colors.Red,
+                align: 'left'
+            });
+            this.altitudeDisplay = this.game.add.text(400, 10, "Altitude: ", {
+                font: '26px Arial',
+                fill: colors.White,
                 align: 'left'
             });
             this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -70,6 +75,7 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
         GameRunningState.prototype.displayFlightData = function () {
             if (this.displayUpdateCount === 0) {
                 this.displayUpdateCount = 3;
+                //#region Velocity
                 var speed = this.ship.speed();
                 if (speed > maxSafeVelocity) {
                     //console.log(`greater than ${maxSafeVelocity}`);
@@ -83,6 +89,8 @@ define(["require", "exports", "UserCode", "Ship"], function (require, exports, u
                     this.velocityDisplay.fill = colors.Yellow;
                 }
                 this.velocityDisplay.setText("Velocity: " + speed.toFixed(1));
+                //#endregion
+                this.altitudeDisplay.setText("Altitude: " + Math.abs(this.ship.altitude()).toFixed());
             }
             this.displayUpdateCount--;
         };
